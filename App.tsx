@@ -1,10 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import { GameEngine } from "react-native-game-engine";
 import React, { useRef, useState } from 'react';
 import type {PropsWithChildren} from 'react';
@@ -15,9 +8,9 @@ import {
   Text,
   useColorScheme,
   View,
-  SafeAreaView
+  SafeAreaView,
+  GestureResponderEvent
 } from 'react-native';
-import Canvas from 'react-native-canvas';
 import Constants from './Constants';
 import Player from './components/Player';
 import GameLoop from "./systems/GameLoop";
@@ -34,32 +27,6 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   const [isGameRunning, setIsGameRunning] = useState(true);
@@ -68,23 +35,28 @@ function App(): React.JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  /*
-   * To keep the template simple and small we're adding padding to prevent view
-   * from rendering under the System UI.
-   * For bigger apps the recommendation is to use `react-native-safe-area-context`:
-   * https://github.com/AppAndFlow/react-native-safe-area-context
-   *
-   * You can read more about it here:
-   * https://github.com/react-native-community/discussions-and-proposals/discussions/827
-   */
   const safePadding = '5%';
   const BoardSize = Constants.GRID_SIZE * Constants.CELL_SIZE;
   const engine = useRef(null);
 
+  const spin = (e: GestureResponderEvent) => {
+      const x = e.nativeEvent.locationX;
+      if (x > BoardSize/2) {
+        engine.current.dispatch("accelerate-right");
+      } else {
+        engine.current.dispatch("accelerate-left");
+      }
+    }
+
+  const stop = (e: GestureResponderEvent) => {
+    engine.current.dispatch("stop");
+  }
+
   return (
     <View
         style={styles.canvas}
-        onTouchStart={(e) => engine.current.dispatch("rotate")}
+        onTouchStart={spin}
+        onTouchEnd={stop}
     >
           <GameEngine
                   ref={engine}
@@ -100,9 +72,9 @@ function App(): React.JSX.Element {
                       size: Constants.CELL_SIZE,
                       updateFrequency: 10,
                       nextMove: 10,
-                      xspeed: 0,
-                      yspeed: 0,
+                      speed: 0,
                       rotation: 45,
+                      direction: 0,
                       renderer: <Player />,
                     }
                   }}
