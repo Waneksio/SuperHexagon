@@ -1,17 +1,17 @@
 import React from "react";
-import { View } from "react-native";
+import { Image } from "react-native";
 export default function Player({ position, size, rotation }) {
   return (
-    <View
+    <Image
+      source={require('./player.png')}
       style={{
-        width: size,
-        height: size,
-        backgroundColor: "red",
+        width: 20,
+        height: 20,
         position: "absolute",
-        left: position[0] * size,
-        top: position[1] * size,
+        left: 140,
+        top: 140,
         transform: [{ rotate: `${rotation}deg` }]
       }}
-    ></View>
+    ></Image>
   );
 }

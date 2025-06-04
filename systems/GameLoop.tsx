@@ -2,6 +2,12 @@
 export default function (entities, { events, dispatch }) {
 
   const player = entities.player;
+  const hexagon = entities.hexagon;
+
+  hexagon.size = hexagon.size - 1;
+  if (hexagon.size == -1) {
+    hexagon.size = 100
+  }
 
   if (events.length) {
       events.forEach((e) => {
@@ -30,6 +36,12 @@ export default function (entities, { events, dispatch }) {
   }
   if (player.speed !== 0) {
     player.rotation = player.rotation + Math.floor(player.speed/30);
+    if (player.rotation > 360) {
+        player.rotation = player.rotation - 360;
+    }
+    if (player.rotation < 0) {
+        player.rotation = 360 - player.rotation;
+    }
   }
 
 

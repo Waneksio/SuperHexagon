@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import Constants from './Constants';
 import Player from './components/Player';
+import Hexagon from './components/Hexagon';
 import GameLoop from "./systems/GameLoop";
 
 import {
@@ -76,6 +77,12 @@ function App(): React.JSX.Element {
                       rotation: 45,
                       direction: 0,
                       renderer: <Player />,
+                    },
+                    hexagon: {
+                      size: 100,
+                      updateFrequency: 10,
+                      nextMove: 10,
+                      renderer: <Hexagon />
                     }
                   }}
                   systems={[GameLoop]}
