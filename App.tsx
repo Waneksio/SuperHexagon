@@ -14,6 +14,7 @@ import {
 import Constants from './Constants';
 import Player from './components/Player';
 import Hexagon from './components/Hexagon';
+import Score from './components/Score';
 import GameLoop from "./systems/GameLoop";
 
 import {
@@ -42,7 +43,7 @@ function App(): React.JSX.Element {
 
   const spin = (e: GestureResponderEvent) => {
       const x = e.nativeEvent.locationX;
-      if (x > BoardSize/2) {
+      if (x > 150) {
         engine.current.dispatch("accelerate-right");
       } else {
         engine.current.dispatch("accelerate-left");
@@ -78,11 +79,20 @@ function App(): React.JSX.Element {
                       direction: 0,
                       renderer: <Player />,
                     },
-                    hexagon: {
+                    hexagon0: {
                       size: 100,
+                      updateFrequency: 20,
+                      nextMove: 10,
+                      nextSize: 100,
+                      renderer: <Hexagon />
+                    },
+                    gameParameters: {
                       updateFrequency: 10,
                       nextMove: 10,
-                      renderer: <Hexagon />
+                      score: 0,
+                      hexagons: 1,
+                      level: 1,
+                      renderer: <Score/>
                     }
                   }}
                   systems={[GameLoop]}

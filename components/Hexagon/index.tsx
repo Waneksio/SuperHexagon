@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from 'react-native';
-export default function Hexagon({ position, size }) {
+export default function Hexagon({ position, size, nextSize }) {
   return (
     <View>
       <View
@@ -8,7 +8,7 @@ export default function Hexagon({ position, size }) {
         width: 384 * size / 100,
         height: 300 * size / 100,
         borderTopColor: 'black',
-        borderTopWidth: 2,
+        borderTopWidth: 3,
         position: "absolute",
         left: 150 - ((384 * size) / 100) / 2,
         top: 150 - ((((300 * size) / 100)) / 2) - (((300 * size) / 100)) / 2
@@ -19,7 +19,7 @@ export default function Hexagon({ position, size }) {
           width: 346 * size / 100,
           height: 300 * size / 100,
           borderTopColor: 'black',
-          borderTopWidth: 2,
+          borderTopWidth: 3,
           position: "absolute",
           left: 150 + ((346 * size / 100) / 2) * 0.87 - (346 * size / 100) / 2,
           top: 150 - (((300 * size / 100)) / 4) - ((300 * size / 100)) / 2,
@@ -31,7 +31,7 @@ export default function Hexagon({ position, size }) {
           width: 346 * size / 100,
           height: 300 * size / 100,
           borderTopColor: 'black',
-          borderTopWidth: 2,
+          borderTopWidth: 3,
           position: "absolute",
           left: 150 + ((346 * size / 100) / 2) * 0.87 - (346 * size / 100) / 2,
           top: 150 + (((300 * size / 100)) / 4) - ((300 * size / 100)) / 2,
@@ -43,7 +43,7 @@ export default function Hexagon({ position, size }) {
           width: 384 * size / 100,
           height: 300 * size / 100,
           borderTopColor: 'black',
-          borderTopWidth: 2,
+          borderTopWidth: 3,
           position: "absolute",
           left: 150 - ((384 * size) / 100) / 2,
           top: 150 + ((((300 * size) / 100)) / 2) - (((300 * size) / 100)) / 2,
@@ -55,7 +55,7 @@ export default function Hexagon({ position, size }) {
           width: 346 * size / 100,
           height: 300 * size / 100,
           borderTopColor: 'black',
-          borderTopWidth: 2,
+          borderTopWidth: 3,
           position: "absolute",
           left: 150 - ((346 * size / 100) / 2) * 0.87 - (346 * size / 100) / 2,
           top: 150 + (((300 * size / 100)) / 4) - ((300 * size / 100)) / 2,
@@ -67,7 +67,7 @@ export default function Hexagon({ position, size }) {
           width: 346 * size / 100,
           height: 300 * size / 100,
           borderTopColor: 'black',
-          borderTopWidth: 2,
+          borderTopWidth: 3,
           position: "absolute",
           left: 150 - ((346 * size / 100) / 2) * 0.87 - (346 * size / 100) / 2,
           top: 150 - (((300 * size / 100)) / 4) - ((300 * size / 100)) / 2,

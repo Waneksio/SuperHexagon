@@ -1,14 +1,14 @@
+import Hexagon from '../components/Hexagon';
 
 export default function (entities, { events, dispatch }) {
 
   const player = entities.player;
   const hexagon = entities.hexagon;
+  const gameParameters = entities.gameParameters;
 
-  hexagon.size = hexagon.size - 1;
-  if (hexagon.size == -1) {
-    hexagon.size = 100
-  }
+  updateHexagons(entities)
 
+  //TODO losowe wydarzenie, żeby dodawać nowe hexy
   if (events.length) {
       events.forEach((e) => {
         switch (e) {
@@ -47,3 +47,50 @@ export default function (entities, { events, dispatch }) {
 
   return entities;
 }
+
+const updateHexagons = (entities) => {
+  const parameters = entities.gameParameters
+  const hexagonCount = parameters.hexagons
+
+  let collapsed = -1;
+
+  for (let i: number = 0; i < hexagonCount; i++) {
+    let name = "hexagon" + i;
+    let hexagon = entities[name]
+    hexagon.size = hexagon.size - 0.5;
+    if (hexagon.size == -1) {
+      parameters.score = parameters.score + 1;
+      collapsed = i;
+    }
+  }
+
+  if (parameters.score > parameters.level * 10 && parameters.level < 4) {
+    parameters.level = parameters.level + 1;
+
+    let gap = Math.floor(100 / parameters.level);
+
+    for (let i: number = 0; i < hexagonCount; i++) {
+      let index = (i + collapsed) % hexagonCount;
+      let name = "hexagon" + index;
+      const hexagon = entities[name];
+      hexagon.nextSize = 100 + (gap * i) - hexagon.size;
+    }
+
+    let newHexagonName = "hexagon" + (parameters.hexagons);
+    entities[newHexagonName] = {
+      size: 100 + hexagonCount * gap,
+      nextSize: 100,
+      updateFrequency: 20,
+      nextMove: 10,
+      renderer: <Hexagon />                
+    }
+    parameters.hexagons = parameters.hexagons + 1
+  }
+
+  if (collapsed != -1) {
+    const hexagon = entities["hexagon" + collapsed]
+    hexagon.size = hexagon.nextSize;
+    hexagon.nextSize = 100;
+  }
+
+};
