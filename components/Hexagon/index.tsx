@@ -1,19 +1,22 @@
 import React from "react";
 import { View } from 'react-native';
-export default function Hexagon({ position, size, nextSize }) {
+export default function Hexagon({ position, size, nextSize, walls }) {
   return (
     <View>
-      <View
-        style={{
-        width: 384 * size / 100,
-        height: 300 * size / 100,
-        borderTopColor: 'black',
-        borderTopWidth: 3,
-        position: "absolute",
-        left: 150 - ((384 * size) / 100) / 2,
-        top: 150 - ((((300 * size) / 100)) / 2) - (((300 * size) / 100)) / 2
-      }}
-      ></View>
+      {((walls & 1) == 1) &&
+        <View
+          style={{
+          width: 384 * size / 100,
+          height: 300 * size / 100,
+          borderTopColor: 'black',
+          borderTopWidth: 3,
+          position: "absolute",
+          left: 150 - ((384 * size) / 100) / 2,
+          top: 150 - ((((300 * size) / 100)) / 2) - (((300 * size) / 100)) / 2
+        }}
+        ></View>
+      }
+      {((walls & 2) == 2) &&
       <View
         style={{
           width: 346 * size / 100,
@@ -26,6 +29,8 @@ export default function Hexagon({ position, size, nextSize }) {
           transform: [{ rotate: `60deg` }]
         }}
       ></View>
+      }
+      {((walls & 4) == 4) &&
       <View
         style={{
           width: 346 * size / 100,
@@ -38,6 +43,8 @@ export default function Hexagon({ position, size, nextSize }) {
           transform: [{ rotate: `120deg` }]
         }}
       ></View>
+      }
+      {((walls & 8) == 8) &&
       <View
         style={{
           width: 384 * size / 100,
@@ -50,6 +57,8 @@ export default function Hexagon({ position, size, nextSize }) {
           transform: [{ rotate: `180deg` }]
         }}
       ></View>
+      }
+      {((walls & 16) == 16) &&
       <View
         style={{
           width: 346 * size / 100,
@@ -62,6 +71,8 @@ export default function Hexagon({ position, size, nextSize }) {
           transform: [{ rotate: `240deg` }]
         }}
       ></View>
+      }
+      {((walls & 32) == 32) &&
       <View
         style={{
           width: 346 * size / 100,
@@ -74,6 +85,7 @@ export default function Hexagon({ position, size, nextSize }) {
           transform: [{ rotate: `300deg` }]
         }}
       ></View>
+      }
     </View>
   );
 }

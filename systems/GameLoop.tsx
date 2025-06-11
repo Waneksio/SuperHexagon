@@ -1,14 +1,20 @@
 import Hexagon from '../components/Hexagon';
 
+const possibleWallsConfigurations = [15, 23, 27, 29, 30, 39, 43, 45, 46, 51, 53, 54, 57, 58, 60, 7, 11, 13, 14, 19, 21, 22, 25, 26, 28, 35, 37, 38, 49, 50, 52, 56]
+
+const getRandomWallsConfiguration = () => {
+  const index = Math.floor(Math.random() * possibleWallsConfigurations.length);
+  return possibleWallsConfigurations[index];
+}
+
 export default function (entities, { events, dispatch }) {
 
   const player = entities.player;
   const hexagon = entities.hexagon;
   const gameParameters = entities.gameParameters;
 
-  updateHexagons(entities)
+  updateHexagons(entities, dispatch)
 
-  //TODO losowe wydarzenie, żeby dodawać nowe hexy
   if (events.length) {
       events.forEach((e) => {
         switch (e) {
@@ -48,7 +54,7 @@ export default function (entities, { events, dispatch }) {
   return entities;
 }
 
-const updateHexagons = (entities) => {
+const updateHexagons = (entities, dispatch) => {
   const parameters = entities.gameParameters
   const hexagonCount = parameters.hexagons
 
@@ -59,6 +65,9 @@ const updateHexagons = (entities) => {
     let hexagon = entities[name]
     hexagon.size = hexagon.size - 0.5;
     if (hexagon.size == -1) {
+      if (detectCollision(hexagon, entities.player)) {
+        dispatch("game-over")
+      }
       parameters.score = parameters.score + 1;
       collapsed = i;
     }
@@ -82,6 +91,7 @@ const updateHexagons = (entities) => {
       nextSize: 100,
       updateFrequency: 20,
       nextMove: 10,
+      walls: 33,
       renderer: <Hexagon />                
     }
     parameters.hexagons = parameters.hexagons + 1
@@ -91,6 +101,17 @@ const updateHexagons = (entities) => {
     const hexagon = entities["hexagon" + collapsed]
     hexagon.size = hexagon.nextSize;
     hexagon.nextSize = 100;
+    hexagon.walls = getRandomWallsConfiguration();
   }
 
 };
+
+const detectCollision = (hexagon, player) => {
+  let playerDirection = (player.rotation + 120) % 360;
+  let aimingWall = Math.pow(2, (Math.floor(playerDirection / 60)));
+  if ((hexagon.walls & aimingWall) == aimingWall) {
+    return true;
+  }
+
+  return false;
+}

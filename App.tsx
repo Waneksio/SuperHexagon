@@ -75,7 +75,7 @@ function App(): React.JSX.Element {
                       updateFrequency: 10,
                       nextMove: 10,
                       speed: 0,
-                      rotation: 45,
+                      rotation: 0,
                       direction: 0,
                       renderer: <Player />,
                     },
@@ -84,6 +84,7 @@ function App(): React.JSX.Element {
                       updateFrequency: 20,
                       nextMove: 10,
                       nextSize: 100,
+                      walls: 62,
                       renderer: <Hexagon />
                     },
                     gameParameters: {
