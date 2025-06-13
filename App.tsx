@@ -29,6 +29,8 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
+var log = logger.createLogger();
+
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   const [isGameRunning, setIsGameRunning] = useState(true);
@@ -42,8 +44,8 @@ function App(): React.JSX.Element {
   const engine = useRef(null);
 
   const spin = (e: GestureResponderEvent) => {
-      const x = e.nativeEvent.locationX;
-      if (x > 150) {
+      const x = e.nativeEvent.pageX;
+      if (x > Constants.MAX_WIDTH / 2) {
         engine.current.dispatch("accelerate-right");
       } else {
         engine.current.dispatch("accelerate-left");
@@ -61,6 +63,7 @@ function App(): React.JSX.Element {
         onTouchEnd={stop}
     >
           <GameEngine
+                  pointerEvents="none"
                   ref={engine}
                   style={{
                     width: BoardSize,
