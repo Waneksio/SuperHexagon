@@ -29,8 +29,6 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-var log = logger.createLogger();
-
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   const [isGameRunning, setIsGameRunning] = useState(true);
